@@ -81,23 +81,51 @@ class BinarySearchTree<T: Comparable> {
     }
 }
 
+
+
+extension BinarySearchTree {
+    
+    // (10) In-order Traversal
+    func inOrderTraversal(from node: Node<T>?, visit: (T) -> Void) {
+        guard let node = node else { return }
+        
+        inOrderTraversal(from: node.left, visit: visit)
+        visit(node.value)
+        inOrderTraversal(from: node.right, visit: visit)
+    }
+    
+    // (11) Pre-order Traversal
+    func preOrderTraversal(from node: Node<T>?, visit: (T) -> Void) {
+        guard let node = node else { return }
+        
+        visit(node.value)
+        preOrderTraversal(from: node.left, visit: visit)
+        preOrderTraversal(from: node.right, visit: visit)
+    }
+    
+    // (12) Post-order Traversal
+    func postOrderTraversal(from node: Node<T>?, visit: (T) -> Void) {
+        guard let node = node else { return }
+        
+        postOrderTraversal(from: node.left, visit: visit)
+        postOrderTraversal(from: node.right, visit: visit)
+        visit(node.value)
+    }
+}
+
 // 사용 예시
 let bst = BinarySearchTree<Int>()
-bst.insert(50)
-bst.insert(30)
-bst.insert(20)
-bst.insert(40)
-bst.insert(70)
-bst.insert(60)
-bst.insert(80)
+bst.insert(5)
+bst.insert(2)
+bst.insert(8)
+bst.insert(1)
+bst.insert(3)
 
-// 50을 삭제 (루트 노드이며, 두 자식을 가짐)
-bst.delete(50)
+print("In-order Traversal:")
+bst.inOrderTraversal(from: bst.root) { print($0) }  // 출력: 1 2 3 5 8
 
-// 30을 삭제 (하나의 자식만 가짐)
-bst.delete(30)
+print("Pre-order Traversal:")
+bst.preOrderTraversal(from: bst.root) { print($0) }  // 출력: 5 2 1 3 8
 
-// 60을 삭제 (잎 노드)
-bst.delete(60)
-
-
+print("Post-order Traversal:")
+bst.postOrderTraversal(from: bst.root) { print($0) }  // 출력: 1 3 2 8 5
